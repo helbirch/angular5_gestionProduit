@@ -1,3 +1,5 @@
+import {HttpClientModule} from '@angular/common/http';
+import {ReactiveFormsModule} from '@angular/forms'
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
@@ -9,6 +11,8 @@ import { ContentComponent } from './content/content.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AppRoutingModule, appRoutes } from './app.routing.module';
 import { RouterModule } from '@angular/router';
+import {ProduitService} from './produit/produit.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,10 +23,10 @@ import { RouterModule } from '@angular/router';
     DashboardComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule,ReactiveFormsModule,HttpClientModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [ProduitMockService],
+  providers: [ProduitMockService,ProduitService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
