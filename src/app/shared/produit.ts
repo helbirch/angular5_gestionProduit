@@ -1,4 +1,4 @@
 export class Produit{
-    constructor(public lib?:string,public qte?:number,public prix?:number){
+    constructor(public idProduit?:number, public lib?:string,public qte?:number,public prix?:number){
     }
 }

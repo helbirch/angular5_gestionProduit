@@ -6,12 +6,18 @@
          <table class="table table-hover">
              <thead>
                  <tr>
-                     <th>libellé</th><th>quantité</th><th>prix</th>
+                        <th>id Produit</th><th>libellé</th><th>quantité</th><th>prix</th>
+                     <th>
+                         <button class="btn btn-outline-primary" (click)="operation='add';initProduit()">ADD</button>
+                        </th>
                  </tr>
              </thead>
              <tbody>
                  <tr *ngFor="let produit of produits">
-                    <td>{{produit.lib}}</td><td>{{produit.qte}}</td><td>{{produit.prix}}</td>
+                        <td>{{produit.idProduit}}</td><td>{{produit.lib}}</td><td>{{produit.qte}}</td><td>{{produit.prix}}</td>
+                    <td><button class="btn btn-outline-primary"(click)="operation='edit';selectProduit=produit;">Edit</button>
+                        <button class="btn btn-outline-danger"(click)="operation ='remove';selectProduit=produit;">Remove</button>
+                    </td>
                  </tr>
              </tbody>
          </table>
@@ -19,28 +25,43 @@
      <div class="col-lg-5">
        <div class="card">
         <div class="card-header bg-info text-white">
-            Ajouter Produit
+            {{operation=='add'?'Ajouter Produit': 
+            operation=='edit'?'Modifier Produit':
+            operation=='remove'?'Supprimer Produit':''}}
         </div>
         <div class="card-body">
-           <form [formGroup]="produitForm">
-               <div class="form-group">
-                  <label>Libellé:</label>
-                  <input type="text" class="form-control" formControlName="lib"/>
-               </div>
-               <div class="alert alert-danger" *ngIf="produitForm.controls['lib'].invalid && (produitForm.controls['lib'].touched|| produitForm.controls['lib'].dirty)">
-                    Libellé est obligatoir!
-               </div>
-               <div class="form-group">
-                    <label>Quantité:</label>
-                    <input type="number" class="form-control" formControlName="qte"/>
-                 </div>
-                 <div class="form-group">
-                        <label>Prix:</label>
-                        <input type="number" class="form-control" formControlName="prix"/>
-                 </div>
-                <hr>
-                 <button class="btn btn-success" [disabled]="produitForm.prestine || produitForm.invalid">Ajouter</button>
-           </form>
+            <div *ngIf="operation== 'add' || operation =='edit'">
+                    <form [formGroup]="produitForm">
+                            <div class="form-group">
+                               <label>Libellé:</label>
+                               <input type="text" class="form-control" formControlName="lib" [(ngModel)]="selectProduit.lib"/>
+                            </div>
+                            <div class="alert alert-danger" *ngIf="produitForm.controls['lib'].invalid && (produitForm.controls['lib'].touched|| produitForm.controls['lib'].dirty)">
+                                 Libellé est obligatoir!
+                            </div>
+                            <div class="form-group">
+                                 <label>Quantité:</label>
+                                 <input type="number" class="form-control" formControlName="qte" [(ngModel)]="selectProduit.qte"/>
+                              </div>
+                              <div class="form-group">
+                                     <label>Prix:</label>
+                                     <input type="number" class="form-control" formControlName="prix" [(ngModel)]="selectProduit.prix"/>
+                              </div>
+                             <hr>
+                              <button class="btn btn-success" [disabled]="produitForm.prestine || produitForm.invalid" (click)="operation=='add'? addProduit() :updateProduit()">
+                                     {{operation=='add'?'Ajouter':operation=='edit'?'Modifier':''}}
+                                 </button>
+                        </form>
+            </div>
+          <div *ngIf="operation =='remove'">
+              <p class="card-title">
+                   Libellé: {{selectProduit.idProduit}}
+              </p>
+              <p>
+                  Voulez-vous supprimer ce produit ?
+              </p>
+              <button class="btn btn-success" [disabled]="!selectProduit.idProduit" (click)="deleteProduit()">Confirmer</button>
+          </div>
         </div>
         <div class="card-footer"></div>
        </div>

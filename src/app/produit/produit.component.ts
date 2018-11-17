@@ -10,15 +10,21 @@ import {FormGroup,FormBuilder,Validators} from '@angular/forms'
     export class ProduitComponent implements OnInit{
         produits:Produit[];
         produitForm:FormGroup;
+        operation:string='add';
+        selectProduit:Produit;
         constructor(private produitService:ProduitService,private fb:FormBuilder){
-         this.produitForm=this.fb.group({
-             lib:['',Validators.required],
-             qte:'',
-             prix: ''
-         })
+         this.creatForm();
         }
         ngOnInit(){
+        this.initProduit();
         this.loadProduits();
+        }
+        creatForm(){
+            this.produitForm=this.fb.group({
+                lib:['',Validators.required],
+                qte:'',
+                prix: ''
+            })
         }
         loadProduits(){
             this.produitService.getProduits().subscribe(
@@ -27,4 +33,36 @@ import {FormGroup,FormBuilder,Validators} from '@angular/forms'
                 () => {console.log('loading produits was done.')}
                 );
     }
+    addProduit(){
+        const p=this.produitForm.value;
+        this.produitService.addProduit(p).subscribe(
+            res=>{
+                this.initProduit();
+                this.loadProduits();
+            }
+           
+        );
+}
+updateProduit(){
+    this.produitService.updateProduit(this.selectProduit).subscribe(
+        res=>{
+            this.initProduit();
+            this.loadProduits();
+        }
+       
+    );
+}
+initProduit(){
+    this.selectProduit=new Produit();
+    this.creatForm();
+}
+deleteProduit(){
+    this.produitService.deleteProduit(this.selectProduit.idProduit).
+    subscribe(
+    res=>{
+     this.selectProduit=new Produit();
+     this.loadProduits();
+ }
+    );
+}
 }

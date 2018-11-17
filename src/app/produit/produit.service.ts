@@ -10,5 +10,13 @@ export class ProduitService{
  getProduits():Observable<any>{
      return this.http.get(API_URLS.PRODUITS_URL);
  }
-
+ addProduit(Produit):Observable<any>{
+return this.http.post(API_URLS.PRODUITS_URL,Produit);
+ }
+ updateProduit(Produit):Observable<any>{
+    return this.http.put(API_URLS.PRODUITS_URL,Produit);
+     }
+     deleteProduit(id:number):Observable<any>{
+        return this.http.delete(API_URLS.PRODUITS_URL+'/'+id);
+         }
 }
