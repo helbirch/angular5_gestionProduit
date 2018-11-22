@@ -12,6 +12,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AppRoutingModule, appRoutes } from './app.routing.module';
 import { RouterModule } from '@angular/router';
 import {ProduitService} from './produit/produit.service';
+import { ProduitResolver } from './produit/produit.resolver';
 
 @NgModule({
   declarations: [
@@ -23,10 +24,16 @@ import {ProduitService} from './produit/produit.service';
     DashboardComponent
   ],
   imports: [
-    BrowserModule,ReactiveFormsModule,HttpClientModule,
+    BrowserModule,
+    ReactiveFormsModule,
+    HttpClientModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [ProduitMockService,ProduitService],
+  providers: [
+    ProduitMockService,
+    ProduitService,
+    ProduitResolver
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

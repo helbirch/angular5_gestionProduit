@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProduitService} from './produit.service';
 import {Produit} from '../shared/produit';
 import {FormGroup,FormBuilder,Validators} from '@angular/forms'
+import {ActivatedRoute} from "@angular/router";
 @Component({
  selector :'app-produit',
  templateUrl :'./produit.component.html',
@@ -12,12 +13,12 @@ import {FormGroup,FormBuilder,Validators} from '@angular/forms'
         produitForm:FormGroup;
         operation:string='add';
         selectProduit:Produit;
-        constructor(private produitService:ProduitService,private fb:FormBuilder){
+        constructor(private produitService:ProduitService,private fb:FormBuilder,private route:ActivatedRoute){
          this.creatForm();
         }
         ngOnInit(){
         this.initProduit();
-        this.loadProduits();
+        this.produits=this.route.snapshot.data.produits;
         }
         creatForm(){
             this.produitForm=this.fb.group({
@@ -46,7 +47,7 @@ import {FormGroup,FormBuilder,Validators} from '@angular/forms'
 updateProduit(){
     this.produitService.updateProduit(this.selectProduit).subscribe(
         res=>{
-            this.initProduit();
+   
             this.loadProduits();
         }
        
